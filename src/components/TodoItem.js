@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { MdDone, MdDelete } from "react-icons/md";
+import { useTodoDispatch } from "../TodoContext";
 
 const Remove = styled.div`
     display: flex;
@@ -60,18 +61,24 @@ const Text = styled.div`
             color: #ced4da;
         `}
 `;
-
 function TodoItem({ id, done, text }) {
+    const dispatch = useTodoDispatch();
+    // dispatch로 토글과 제거 버튼 기능 추가
+    const onToggle = () => dispatch({ type: "TOGGLE", id });
+    const onRemove = () => dispatch({ type: "REMOVE", id });
     return (
         <TodoItemBlock>
             {/* 완료한 항목의 경우 체크 표시 */}
-            <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
+            <CheckCircle done={done} onClick={onToggle}>
+                {done && <MdDone />}
+            </CheckCircle>
             <Text done={done}>{text}</Text>
-            <Remove>
+            <Remove onClick={onRemove}>
                 <MdDelete />
             </Remove>
         </TodoItemBlock>
     );
 }
 
-export default TodoItem;
+// 다른 항목이 업데이트 될 때, 불필요한 리렌더링을 방지하게 되어 성능을 최적화
+export default React.memo(TodoItem);
