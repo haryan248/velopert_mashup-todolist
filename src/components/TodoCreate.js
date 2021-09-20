@@ -79,7 +79,6 @@ const Input = styled.input`
 
 function TodoCreate() {
     // +,x 버튼 상태 관리
-
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
 
@@ -87,7 +86,9 @@ function TodoCreate() {
     const nextId = useTodoNextId();
     // open button 토글
     const onToggle = () => setOpen(!open);
+    // 값이 변경될 경우 값 변경
     const onChange = (e) => setValue(e.target.value);
+    // format의 기본 기능 제거
     const onSubmit = (e) => {
         e.preventDefault(); // 새로고침 방지
         dispatch({
@@ -98,7 +99,9 @@ function TodoCreate() {
                 done: false,
             },
         });
+        // 등록후 값 초기화
         setValue("");
+        // modal open한거 false로 변경
         setOpen(false);
         nextId.current += 1;
     };

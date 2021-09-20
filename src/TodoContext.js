@@ -30,8 +30,10 @@ function todoReducer(state, action) {
         case "CREATE":
             return state.concat(action.todo);
         case "TOGGLE":
+            // action된 id 와 같은것만 보이도록 설정
             return state.map((todo) => (todo.id === action.id ? { ...todo, done: !todo.done } : todo));
         case "REMOVE":
+            // 제거할 id와 같지 않은것만 설정
             return state.filter((todo) => todo.id !== action.id);
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
